@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+﻿import React, { useState, useEffect } from 'react';
 import { useAuth } from '../contexts/AuthContext';
 import { useData } from '../contexts/DataContext';
 import { 
@@ -37,7 +37,7 @@ const TransportEntry: React.FC = () => {
 
   const fetchTransports = async () => {
     try {
-      const response = await fetch('http://localhost:3001/api/transport', {
+        const response = await fetch(`${process.env.API_URL}/api/transport`, {
         headers: {
           'Authorization': `Bearer ${token}`,
         },
@@ -62,8 +62,8 @@ const TransportEntry: React.FC = () => {
 
     try {
       const url = editingTransport 
-        ? `http://localhost:3001/api/transport/${editingTransport.id}`
-        : 'http://localhost:3001/api/transport';
+          ? `${process.env.API_URL}/api/transport/${editingTransport.id}`
+          : `${process.env.API_URL}/api/transport`;
       
       const method = editingTransport ? 'PUT' : 'POST';
 
@@ -104,7 +104,7 @@ const TransportEntry: React.FC = () => {
     if (!confirm(`Are you sure you want to delete transport option "${transportName}"?`)) return;
 
     try {
-      const response = await fetch(`http://localhost:3001/api/transport/${id}`, {
+        const response = await fetch(`${process.env.API_URL}/api/transport/${id}`, {
         method: 'DELETE',
         headers: {
           'Authorization': `Bearer ${token}`,
@@ -147,7 +147,7 @@ const TransportEntry: React.FC = () => {
 
   if (loading && transports.length === 0) {
     return (
-      <div className="flex items-center justify-center h-64">
+      <div className="flex h-64 items-center justify-center">
         <div className="text-gray-600">Loading transport options...</div>
       </div>
     );
@@ -159,19 +159,19 @@ const TransportEntry: React.FC = () => {
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between">
         <div>
           <h1 className="text-3xl font-bold text-gray-900">Transport Entry</h1>
-          <p className="text-gray-600 mt-1">Manage transport methods and delivery options</p>
+          <p className="mt-1 text-gray-600">Manage transport methods and delivery options</p>
         </div>
         <button
           onClick={() => setShowCreateForm(true)}
           className="mt-4 sm:mt-0 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors duration-200 flex items-center"
         >
-          <PlusIcon className="w-5 h-5 mr-2" />
+          <PlusIcon className="mr-2 h-5 w-5" />
           New Transport
         </button>
       </div>
 
       {error && (
-        <div className="bg-red-50 border border-red-200 rounded-lg p-4">
+        <div className="rounded-lg border border-red-200 bg-red-50 p-4">
           <p className="text-red-600">{error}</p>
           <button 
             onClick={() => setError('')}
@@ -183,9 +183,9 @@ const TransportEntry: React.FC = () => {
       )}
 
       {/* Search */}
-      <div className="bg-white rounded-lg shadow-sm p-6">
+      <div className="rounded-lg bg-white p-6 shadow-sm">
         <div className="relative">
-          <SearchIcon className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+          <SearchIcon className="-translate-y-1/2 absolute left-3 top-1/2 h-5 w-5 transform text-gray-400" />
           <input
             type="text"
             placeholder="Search transport options by name or description..."
@@ -197,58 +197,58 @@ const TransportEntry: React.FC = () => {
       </div>
 
       {/* Transport Options Table */}
-      <div className="bg-white rounded-lg shadow-sm overflow-hidden">
+      <div className="overflow-hidden rounded-lg bg-white shadow-sm">
         {/* Desktop Table View */}
-        <div className="hidden md:block overflow-x-auto">
+        <div className="hidden overflow-x-auto md:block">
           <table className="w-full">
             <thead className="bg-gray-50">
               <tr>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
                   Transport Name
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
                   Description
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
                   Created Date
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
                   Actions
                 </th>
               </tr>
             </thead>
-            <tbody className="bg-white divide-y divide-gray-200">
+            <tbody className="divide-y divide-gray-200 bg-white">
               {filteredTransports.map((transport) => (
-                <tr key={transport.id} className="hover:bg-gray-50 transition-colors duration-200">
+                <tr key={transport.id} className="transition-colors duration-200 hover:bg-gray-50">
                   <td className="px-6 py-4">
                     <div className="flex items-center">
-                      <TruckIcon className="w-4 h-4 text-gray-400 mr-2" />
+                      <TruckIcon className="mr-2 h-4 w-4 text-gray-400" />
                       <div className="text-sm font-medium text-gray-900">{transport.transport_name}</div>
                     </div>
                   </td>
                   <td className="px-6 py-4">
-                    <div className="text-sm text-gray-900 max-w-xs">
+                    <div className="max-w-xs text-sm text-gray-900">
                       {transport.description || '-'}
                     </div>
                   </td>
-                  <td className="px-6 py-4 whitespace-nowrap">
+                  <td className="whitespace-nowrap px-6 py-4">
                     <div className="text-sm text-gray-500">{formatDate(transport.created_at)}</div>
                   </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                  <td className="whitespace-nowrap px-6 py-4 text-sm font-medium">
                     <div className="flex space-x-2">
                       <button
                         onClick={() => handleEdit(transport)}
                         className="text-blue-600 hover:text-blue-900 p-1 rounded hover:bg-blue-50"
                         title="Edit transport option"
                       >
-                        <Edit2Icon className="w-4 h-4" />
+                        <Edit2Icon className="h-4 w-4" />
                       </button>
                       <button
                         onClick={() => handleDelete(transport.id, transport.transport_name)}
                         className="text-red-600 hover:text-red-900 p-1 rounded hover:bg-red-50"
                         title="Delete transport option"
                       >
-                        <Trash2Icon className="w-4 h-4" />
+                        <Trash2Icon className="h-4 w-4" />
                       </button>
                     </div>
                   </td>
@@ -258,8 +258,8 @@ const TransportEntry: React.FC = () => {
           </table>
 
           {filteredTransports.length === 0 && (
-            <div className="text-center py-12">
-              <TruckIcon className="w-12 h-12 text-gray-400 mx-auto mb-4" />
+            <div className="py-12 text-center">
+              <TruckIcon className="mx-auto mb-4 h-12 w-12 text-gray-400" />
               <p className="text-gray-500">
                 {searchTerm ? 'No transport options found matching your search' : 'No transport options found'}
               </p>
@@ -270,20 +270,20 @@ const TransportEntry: React.FC = () => {
         {/* Mobile Card View */}
         <div className="md:hidden">
           {filteredTransports.length === 0 ? (
-            <div className="text-center py-12">
-              <TruckIcon className="w-12 h-12 text-gray-400 mx-auto mb-4" />
+            <div className="py-12 text-center">
+              <TruckIcon className="mx-auto mb-4 h-12 w-12 text-gray-400" />
               <p className="text-gray-500">
                 {searchTerm ? 'No transport options found matching your search' : 'No transport options found'}
               </p>
             </div>
           ) : (
-            <div className="p-4 space-y-4">
+            <div className="space-y-4 p-4">
               {filteredTransports.map((transport) => (
-                <div key={transport.id} className="bg-gray-50 rounded-lg p-4 border">
+                <div key={transport.id} className="rounded-lg border bg-gray-50 p-4">
                   {/* Transport Header */}
-                  <div className="flex items-center justify-between mb-3">
+                  <div className="mb-3 flex items-center justify-between">
                     <div className="flex items-center">
-                      <TruckIcon className="w-4 h-4 text-gray-400 mr-2" />
+                      <TruckIcon className="mr-2 h-4 w-4 text-gray-400" />
                       <span className="text-sm font-medium text-gray-900">{transport.transport_name}</span>
                     </div>
                   </div>
@@ -303,20 +303,20 @@ const TransportEntry: React.FC = () => {
                   </div>
 
                   {/* Actions */}
-                  <div className="flex justify-end space-x-2 pt-2 border-t">
+                  <div className="flex justify-end space-x-2 border-t pt-2">
                     <button
                       onClick={() => handleEdit(transport)}
                       className="text-blue-600 hover:text-blue-900 p-2 rounded hover:bg-blue-50"
                       title="Edit transport option"
                     >
-                      <Edit2Icon className="w-4 h-4" />
+                      <Edit2Icon className="h-4 w-4" />
                     </button>
                     <button
                       onClick={() => handleDelete(transport.id, transport.transport_name)}
                       className="text-red-600 hover:text-red-900 p-2 rounded hover:bg-red-50"
                       title="Delete transport option"
                     >
-                      <Trash2Icon className="w-4 h-4" />
+                      <Trash2Icon className="h-4 w-4" />
                     </button>
                   </div>
                 </div>
@@ -328,15 +328,15 @@ const TransportEntry: React.FC = () => {
 
       {/* Create/Edit Transport Modal */}
       {showCreateForm && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
-          <div className="bg-white rounded-lg max-w-md w-full p-6">
-            <h2 className="text-xl font-bold text-gray-900 mb-4">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 p-4">
+          <div className="w-full max-w-md rounded-lg bg-white p-6">
+            <h2 className="mb-4 text-xl font-bold text-gray-900">
               {editingTransport ? 'Edit Transport Option' : 'Create New Transport Option'}
             </h2>
             
             <form onSubmit={handleSubmit} className="space-y-4">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
+                <label className="mb-1 block text-sm font-medium text-gray-700">
                   Transport Name *
                 </label>
                 <input
@@ -350,7 +350,7 @@ const TransportEntry: React.FC = () => {
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
+                <label className="mb-1 block text-sm font-medium text-gray-700">
                   Description
                 </label>
                 <textarea
@@ -366,14 +366,14 @@ const TransportEntry: React.FC = () => {
                 <button
                   type="button"
                   onClick={resetForm}
-                  className="px-4 py-2 text-gray-700 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors duration-200"
+                  className="rounded-lg border border-gray-300 px-4 py-2 text-gray-700 transition-colors duration-200 hover:bg-gray-50"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
                   disabled={loading}
-                  className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors duration-200 disabled:opacity-50"
+                  className="rounded-lg bg-blue-600 px-4 py-2 text-white transition-colors duration-200 hover:bg-blue-700 disabled:opacity-50"
                 >
                   {loading ? 'Saving...' : (editingTransport ? 'Update Transport' : 'Create Transport')}
                 </button>

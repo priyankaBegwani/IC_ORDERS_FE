@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+﻿import React, { useState, useEffect } from 'react';
 import { useAuth } from '../contexts/AuthContext';
 import { useData } from '../contexts/DataContext';
 import * as XLSX from 'xlsx';
@@ -77,7 +77,7 @@ const PartyEntry: React.FC = () => {
 
   const fetchParties = async () => {
     try {
-      const response = await fetch('http://localhost:3001/api/parties', {
+        const response = await fetch(`${process.env.API_URL}/api/parties`, {
         headers: {
           'Authorization': `Bearer ${token}`,
         },
@@ -102,8 +102,8 @@ const PartyEntry: React.FC = () => {
 
     try {
       const url = editingParty 
-        ? `http://localhost:3001/api/parties/${editingParty.id}`
-        : 'http://localhost:3001/api/parties';
+          ? `${process.env.API_URL}/api/parties/${editingParty.id}`
+          : `${process.env.API_URL}/api/parties`;
       
       const method = editingParty ? 'PUT' : 'POST';
 
@@ -149,7 +149,7 @@ const PartyEntry: React.FC = () => {
     if (!confirm(`Are you sure you want to delete party "${partyName}"?`)) return;
 
     try {
-      const response = await fetch(`http://localhost:3001/api/parties/${id}`, {
+        const response = await fetch(`${process.env.API_URL}/api/parties/${id}`, {
         method: 'DELETE',
         headers: {
           'Authorization': `Bearer ${token}`,
@@ -259,7 +259,7 @@ const PartyEntry: React.FC = () => {
 
       for (const row of validRows) {
         try {
-          const response = await fetch('http://localhost:3001/api/parties', {
+            const response = await fetch(`${process.env.API_URL}/api/parties`, {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
@@ -346,7 +346,7 @@ const PartyEntry: React.FC = () => {
 
   if (loading && parties.length === 0) {
     return (
-      <div className="flex items-center justify-center h-64">
+      <div className="flex h-64 items-center justify-center">
         <div className="text-gray-600">Loading parties...</div>
       </div>
     );
@@ -358,35 +358,35 @@ const PartyEntry: React.FC = () => {
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between">
         <div>
           <h1 className="text-3xl font-bold text-gray-900">Party Entry</h1>
-          <p className="text-gray-600 mt-1">Manage party information and contacts</p>
+          <p className="mt-1 text-gray-600">Manage party information and contacts</p>
         </div>
         <button
           onClick={() => setShowCreateForm(true)}
           className="mt-4 sm:mt-0 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors duration-200 flex items-center"
         >
-          <PlusIcon className="w-5 h-5 mr-2" />
+          <PlusIcon className="mr-2 h-5 w-5" />
           New Party
         </button>
-        <div className="flex space-x-2 mt-4 sm:mt-0">
+        <div className="mt-4 flex space-x-2 sm:mt-0">
           <button
             onClick={() => setShowImportModal(true)}
             className="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition-colors duration-200 flex items-center"
           >
-            <UploadIcon className="w-5 h-5 mr-2" />
+            <UploadIcon className="mr-2 h-5 w-5" />
             Import Excel
           </button>
           <button
             onClick={generateSampleExcel}
-            className="bg-gray-600 text-white px-4 py-2 rounded-lg hover:bg-gray-700 transition-colors duration-200 flex items-center"
+            className="flex items-center rounded-lg bg-gray-600 px-4 py-2 text-white transition-colors duration-200 hover:bg-gray-700"
           >
-            <DownloadIcon className="w-5 h-5 mr-2" />
+            <DownloadIcon className="mr-2 h-5 w-5" />
             Sample Format
           </button>
         </div>
       </div>
 
       {error && (
-        <div className="bg-red-50 border border-red-200 rounded-lg p-4">
+        <div className="rounded-lg border border-red-200 bg-red-50 p-4">
           <p className="text-red-600">{error}</p>
           <button 
             onClick={() => setError('')}
@@ -398,9 +398,9 @@ const PartyEntry: React.FC = () => {
       )}
 
       {/* Search */}
-      <div className="bg-white rounded-lg shadow-sm p-6">
+      <div className="rounded-lg bg-white p-6 shadow-sm">
         <div className="relative">
-          <SearchIcon className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+          <SearchIcon className="-translate-y-1/2 absolute left-3 top-1/2 h-5 w-5 transform text-gray-400" />
           <input
             type="text"
             placeholder="Search parties by ID, name, city, state, or GST number..."
@@ -412,76 +412,76 @@ const PartyEntry: React.FC = () => {
       </div>
 
       {/* Parties Table */}
-      <div className="bg-white rounded-lg shadow-sm overflow-hidden">
+      <div className="overflow-hidden rounded-lg bg-white shadow-sm">
         {/* Desktop Table View */}
-        <div className="hidden md:block overflow-x-auto">
+        <div className="hidden overflow-x-auto md:block">
           <table className="w-full">
             <thead className="bg-gray-50">
               <tr>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
                   Name
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
                   Description
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
                   Phone
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
                   GST Number
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
                   Address
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
                   Location
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
                   Created By
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
                   Date
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
                   Actions
                 </th>
               </tr>
             </thead>
-            <tbody className="bg-white divide-y divide-gray-200">
+            <tbody className="divide-y divide-gray-200 bg-white">
               {filteredParties.map((party) => (
-                <tr key={party.id} className="hover:bg-gray-50 transition-colors duration-200">
+                <tr key={party.id} className="transition-colors duration-200 hover:bg-gray-50">
                   <td className="px-6 py-4">
                     <div className="text-sm font-medium text-gray-900">{party.name}</div>
                   </td>
                   <td className="px-6 py-4">
-                    <div className="text-sm text-gray-900 max-w-xs">
+                    <div className="max-w-xs text-sm text-gray-900">
                       {party.description || '-'}
                     </div>
                   </td>
                   <td className="px-6 py-4">
                     {party.phone_number && (
-                      <div className="flex items-center text-sm text-gray-900 mb-1">
-                        <PhoneIcon className="w-3 h-3 text-gray-400 mr-1" />
+                      <div className="mb-1 flex items-center text-sm text-gray-900">
+                        <PhoneIcon className="mr-1 h-3 w-3 text-gray-400" />
                         {party.phone_number}
                       </div>
                     )}
                   </td>
                   <td className="px-6 py-4">
                     {party.gst_number && (
-                      <div className="text-sm text-gray-900 font-mono bg-gray-100 px-2 py-1 rounded">
+                      <div className="rounded bg-gray-100 px-2 py-1 font-mono text-sm text-gray-900">
                         {party.gst_number}
                       </div>
                     )}
                   </td>
                   <td className="px-6 py-4">
                     {party.address && (
-                      <div className="text-sm text-gray-900 max-w-xs">{party.address}</div>
+                      <div className="max-w-xs text-sm text-gray-900">{party.address}</div>
                     )}
                   </td>
                   <td className="px-6 py-4">
                     {(party.city || party.state) && (
                       <div className="flex items-center text-sm text-gray-900">
-                        <MapPinIcon className="w-3 h-3 text-gray-400 mr-1" />
+                        <MapPinIcon className="mr-1 h-3 w-3 text-gray-400" />
                         <span>
                           {party.city}{party.city && party.state && ', '}{party.state}
                         </span>
@@ -491,27 +491,27 @@ const PartyEntry: React.FC = () => {
                       <div className="text-sm text-gray-500">PIN: {party.pincode}</div>
                     )}
                   </td>
-                  <td className="px-6 py-4 whitespace-nowrap">
+                  <td className="whitespace-nowrap px-6 py-4">
                     <div className="text-sm text-gray-900">{party.user_profiles?.name}</div>
                   </td>
-                  <td className="px-6 py-4 whitespace-nowrap">
+                  <td className="whitespace-nowrap px-6 py-4">
                     <div className="text-sm text-gray-500">{formatDate(party.created_at)}</div>
                   </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                  <td className="whitespace-nowrap px-6 py-4 text-sm font-medium">
                     <div className="flex space-x-2">
                       <button
                         onClick={() => handleEdit(party)}
                         className="text-blue-600 hover:text-blue-900 p-1 rounded hover:bg-blue-50"
                         title="Edit party"
                       >
-                        <Edit2Icon className="w-4 h-4" />
+                        <Edit2Icon className="h-4 w-4" />
                       </button>
                       <button
                         onClick={() => handleDelete(party.id, party.name)}
                         className="text-red-600 hover:text-red-900 p-1 rounded hover:bg-red-50"
                         title="Delete party"
                       >
-                        <Trash2Icon className="w-4 h-4" />
+                        <Trash2Icon className="h-4 w-4" />
                       </button>
                     </div>
                   </td>
@@ -521,8 +521,8 @@ const PartyEntry: React.FC = () => {
           </table>
 
           {filteredParties.length === 0 && (
-            <div className="text-center py-12">
-              <UsersIcon className="w-12 h-12 text-gray-400 mx-auto mb-4" />
+            <div className="py-12 text-center">
+              <UsersIcon className="mx-auto mb-4 h-12 w-12 text-gray-400" />
               <p className="text-gray-500">
                 {searchTerm ? 'No parties found matching your search' : 'No parties found'}
               </p>
@@ -533,23 +533,23 @@ const PartyEntry: React.FC = () => {
         {/* Mobile Card View */}
         <div className="md:hidden">
           {filteredParties.length === 0 ? (
-            <div className="text-center py-12">
-              <UsersIcon className="w-12 h-12 text-gray-400 mx-auto mb-4" />
+            <div className="py-12 text-center">
+              <UsersIcon className="mx-auto mb-4 h-12 w-12 text-gray-400" />
               <p className="text-gray-500">
                 {searchTerm ? 'No parties found matching your search' : 'No parties found'}
               </p>
             </div>
           ) : (
-            <div className="p-4 space-y-4">
+            <div className="space-y-4 p-4">
               {filteredParties.map((party) => (
-                <div key={party.id} className="bg-gray-50 rounded-lg p-4 border">
+                <div key={party.id} className="rounded-lg border bg-gray-50 p-4">
                   {/* Party Header */}
-                  <div className="flex items-center justify-between mb-3">
+                  <div className="mb-3 flex items-center justify-between">
                     <div className="flex items-center">
-                      <UsersIcon className="w-4 h-4 text-gray-400 mr-2" />
+                      <UsersIcon className="mr-2 h-4 w-4 text-gray-400" />
                       <span className="text-sm font-medium text-gray-900">{party.name}</span>
                     </div>
-                    <span className="text-xs text-gray-500 font-mono bg-white px-2 py-1 rounded">
+                    <span className="rounded bg-white px-2 py-1 font-mono text-xs text-gray-500">
                       {party.party_id}
                     </span>
                   </div>
@@ -565,14 +565,14 @@ const PartyEntry: React.FC = () => {
                   <div className="mb-3 space-y-1">
                     {party.phone_number && (
                       <div className="flex items-center text-sm text-gray-900">
-                        <PhoneIcon className="w-3 h-3 text-gray-400 mr-2" />
+                        <PhoneIcon className="mr-2 h-3 w-3 text-gray-400" />
                         <span className="text-xs">{party.phone_number}</span>
                       </div>
                     )}
                     {party.gst_number && (
                       <div className="flex items-center text-sm text-gray-900">
-                        <BuildingIcon className="w-3 h-3 text-gray-400 mr-2" />
-                        <span className="text-xs font-mono bg-white px-2 py-1 rounded border">
+                        <BuildingIcon className="mr-2 h-3 w-3 text-gray-400" />
+                        <span className="rounded border bg-white px-2 py-1 font-mono text-xs">
                           {party.gst_number}
                         </span>
                       </div>
@@ -583,7 +583,7 @@ const PartyEntry: React.FC = () => {
                   {(party.address || party.city || party.state) && (
                     <div className="mb-3">
                       <div className="flex items-start text-sm text-gray-900">
-                        <MapPinIcon className="w-3 h-3 text-gray-400 mr-2 mt-0.5" />
+                        <MapPinIcon className="mr-2 mt-0.5 h-3 w-3 text-gray-400" />
                         <div className="text-xs">
                           {party.address && (
                             <div className="mb-1">{party.address}</div>
@@ -608,20 +608,20 @@ const PartyEntry: React.FC = () => {
                   </div>
 
                   {/* Actions */}
-                  <div className="flex justify-end space-x-2 pt-2 border-t">
+                  <div className="flex justify-end space-x-2 border-t pt-2">
                     <button
                       onClick={() => handleEdit(party)}
                       className="text-blue-600 hover:text-blue-900 p-2 rounded hover:bg-blue-50"
                       title="Edit party"
                     >
-                      <Edit2Icon className="w-4 h-4" />
+                      <Edit2Icon className="h-4 w-4" />
                     </button>
                     <button
                       onClick={() => handleDelete(party.id, party.name)}
                       className="text-red-600 hover:text-red-900 p-2 rounded hover:bg-red-50"
                       title="Delete party"
                     >
-                      <Trash2Icon className="w-4 h-4" />
+                      <Trash2Icon className="h-4 w-4" />
                     </button>
                   </div>
                 </div>
@@ -633,15 +633,15 @@ const PartyEntry: React.FC = () => {
 
       {/* Create/Edit Party Modal */}
       {showCreateForm && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
-          <div className="bg-white rounded-lg max-w-2xl w-full p-6 max-h-[90vh] overflow-y-auto">
-            <h2 className="text-xl font-bold text-gray-900 mb-4">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 p-4">
+          <div className="max-h-[90vh] w-full max-w-2xl overflow-y-auto rounded-lg bg-white p-6">
+            <h2 className="mb-4 text-xl font-bold text-gray-900">
               {editingParty ? 'Edit Party' : 'Create New Party'}
             </h2>
             
             <form onSubmit={handleSubmit} className="space-y-4">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
+                <label className="mb-1 block text-sm font-medium text-gray-700">
                   Party Name *
                 </label>
                 <input
@@ -655,7 +655,7 @@ const PartyEntry: React.FC = () => {
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
+                <label className="mb-1 block text-sm font-medium text-gray-700">
                   Description
                 </label>
                 <textarea
@@ -668,7 +668,7 @@ const PartyEntry: React.FC = () => {
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
+                <label className="mb-1 block text-sm font-medium text-gray-700">
                   Address
                 </label>
                 <textarea
@@ -680,9 +680,9 @@ const PartyEntry: React.FC = () => {
                 />
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                  <label className="mb-1 block text-sm font-medium text-gray-700">
                     City
                   </label>
                   <input
@@ -695,7 +695,7 @@ const PartyEntry: React.FC = () => {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                  <label className="mb-1 block text-sm font-medium text-gray-700">
                     State
                   </label>
                   <input
@@ -708,7 +708,7 @@ const PartyEntry: React.FC = () => {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                  <label className="mb-1 block text-sm font-medium text-gray-700">
                     Pincode
                   </label>
                   <input
@@ -722,7 +722,7 @@ const PartyEntry: React.FC = () => {
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
+                <label className="mb-1 block text-sm font-medium text-gray-700">
                   Phone Number
                 </label>
                 <input
@@ -735,7 +735,7 @@ const PartyEntry: React.FC = () => {
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
+                <label className="mb-1 block text-sm font-medium text-gray-700">
                   GST Number
                 </label>
                 <input
@@ -751,14 +751,14 @@ const PartyEntry: React.FC = () => {
                 <button
                   type="button"
                   onClick={resetForm}
-                  className="px-4 py-2 text-gray-700 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors duration-200"
+                  className="rounded-lg border border-gray-300 px-4 py-2 text-gray-700 transition-colors duration-200 hover:bg-gray-50"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
                   disabled={loading}
-                  className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors duration-200 disabled:opacity-50"
+                  className="rounded-lg bg-blue-600 px-4 py-2 text-white transition-colors duration-200 hover:bg-blue-700 disabled:opacity-50"
                 >
                   {loading ? 'Saving...' : (editingParty ? 'Update Party' : 'Create Party')}
                 </button>
@@ -770,16 +770,16 @@ const PartyEntry: React.FC = () => {
 
       {/* Import Excel Modal */}
       {showImportModal && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
-          <div className="bg-white rounded-lg max-w-4xl w-full p-6 max-h-[90vh] overflow-y-auto">
-            <h2 className="text-xl font-bold text-gray-900 mb-4">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 p-4">
+          <div className="max-h-[90vh] w-full max-w-4xl overflow-y-auto rounded-lg bg-white p-6">
+            <h2 className="mb-4 text-xl font-bold text-gray-900">
               Import Party Details from Excel
             </h2>
             
             <div className="space-y-6">
               {/* File Upload */}
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label className="mb-2 block text-sm font-medium text-gray-700">
                   Select Excel File
                 </label>
                 <div className="flex items-center space-x-4">
@@ -787,24 +787,24 @@ const PartyEntry: React.FC = () => {
                     type="file"
                     accept=".xlsx,.xls"
                     onChange={handleFileUpload}
-                    className="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"
+                    className="block w-full text-sm text-gray-500 file:mr-4 file:rounded-lg file:border-0 file:bg-blue-50 file:px-4 file:py-2 file:text-sm file:font-semibold file:text-blue-700 hover:file:bg-blue-100"
                   />
                   <button
                     onClick={generateSampleExcel}
-                    className="text-blue-600 hover:text-blue-800 text-sm font-medium whitespace-nowrap"
+                    className="whitespace-nowrap text-sm font-medium text-blue-600 hover:text-blue-800"
                   >
                     Download Sample
                   </button>
                 </div>
-                <p className="text-xs text-gray-500 mt-1">
+                <p className="mt-1 text-xs text-gray-500">
                   Upload an Excel file (.xlsx or .xls) with party details. Download the sample format to see the expected structure.
                 </p>
               </div>
 
               {/* Expected Format Info */}
-              <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
-                <h3 className="text-sm font-medium text-blue-900 mb-2">Expected Excel Format:</h3>
-                <div className="text-xs text-blue-800 space-y-1">
+              <div className="rounded-lg border border-blue-200 bg-blue-50 p-4">
+                <h3 className="mb-2 text-sm font-medium text-blue-900">Expected Excel Format:</h3>
+                <div className="space-y-1 text-xs text-blue-800">
                   <p><strong>Required Column:</strong> Party Name</p>
                   <p><strong>Optional Columns:</strong> Description, Address, City, State, Pincode, Phone Number, GST Number</p>
                   <p><strong>Note:</strong> Column names must match exactly (case-sensitive)</p>
@@ -814,19 +814,19 @@ const PartyEntry: React.FC = () => {
               {/* Preview Data */}
               {importPreview.length > 0 && (
                 <div>
-                  <h3 className="text-lg font-medium text-gray-900 mb-3">
+                  <h3 className="mb-3 text-lg font-medium text-gray-900">
                     Preview ({importPreview.filter(row => row.isValid).length} valid rows)
                   </h3>
-                  <div className="max-h-64 overflow-y-auto border border-gray-300 rounded-lg">
+                  <div className="max-h-64 overflow-y-auto rounded-lg border border-gray-300">
                     <table className="w-full text-sm">
-                      <thead className="bg-gray-50 sticky top-0">
+                      <thead className="sticky top-0 bg-gray-50">
                         <tr>
-                          <th className="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase">Row</th>
-                          <th className="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase">Party Name</th>
-                          <th className="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase">City</th>
-                          <th className="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase">State</th>
-                          <th className="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase">GST</th>
-                          <th className="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase">Status</th>
+                          <th className="px-3 py-2 text-left text-xs font-medium uppercase text-gray-500">Row</th>
+                          <th className="px-3 py-2 text-left text-xs font-medium uppercase text-gray-500">Party Name</th>
+                          <th className="px-3 py-2 text-left text-xs font-medium uppercase text-gray-500">City</th>
+                          <th className="px-3 py-2 text-left text-xs font-medium uppercase text-gray-500">State</th>
+                          <th className="px-3 py-2 text-left text-xs font-medium uppercase text-gray-500">GST</th>
+                          <th className="px-3 py-2 text-left text-xs font-medium uppercase text-gray-500">Status</th>
                         </tr>
                       </thead>
                       <tbody className="divide-y divide-gray-200">

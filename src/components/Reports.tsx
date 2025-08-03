@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from 'react';
+﻿import React, { useState, useEffect, useMemo } from 'react';
 import { useAuth } from '../contexts/AuthContext';
 import { useData } from '../contexts/DataContext';
 import * as XLSX from 'xlsx';
@@ -118,7 +118,7 @@ const Reports: React.FC = () => {
 
   const fetchOrders = async () => {
     try {
-      const response = await fetch('http://localhost:3001/api/orders', {
+        const response = await fetch(`${process.env.API_URL}/api/orders`, {
         headers: {
           'Authorization': `Bearer ${token}`,
         },
@@ -475,7 +475,7 @@ const Reports: React.FC = () => {
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center h-64">
+      <div className="flex h-64 items-center justify-center">
         <div className="text-gray-600">Loading reports...</div>
       </div>
     );
@@ -487,21 +487,21 @@ const Reports: React.FC = () => {
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between">
         <div>
           <h1 className="text-3xl font-bold text-gray-900">Reports</h1>
-          <p className="text-gray-600 mt-1">Generate and export detailed order reports</p>
+          <p className="mt-1 text-gray-600">Generate and export detailed order reports</p>
         </div>
-        <div className="flex space-x-2 mt-4 sm:mt-0">
+        <div className="mt-4 flex space-x-2 sm:mt-0">
           <button
             onClick={() => setShowFilters(!showFilters)}
             className="bg-gray-600 text-white px-4 py-2 rounded-lg hover:bg-gray-700 transition-colors duration-200 flex items-center"
           >
-            <FilterIcon className="w-5 h-5 mr-2" />
+            <FilterIcon className="mr-2 h-5 w-5" />
             Filters
           </button>
         </div>
       </div>
 
       {error && (
-        <div className="bg-red-50 border border-red-200 rounded-lg p-4">
+        <div className="rounded-lg border border-red-200 bg-red-50 p-4">
           <p className="text-red-600">{error}</p>
           <button 
             onClick={() => setError('')}
@@ -514,10 +514,10 @@ const Reports: React.FC = () => {
 
       {/* Filters Panel */}
       {showFilters && (
-        <div className="bg-white rounded-lg shadow-sm p-6">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+        <div className="rounded-lg bg-white p-6 shadow-sm">
+          <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
+              <label className="mb-1 block text-sm font-medium text-gray-700">
                 Date From
               </label>
               <input
@@ -528,7 +528,7 @@ const Reports: React.FC = () => {
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
+              <label className="mb-1 block text-sm font-medium text-gray-700">
                 Date To
               </label>
               <input
@@ -539,7 +539,7 @@ const Reports: React.FC = () => {
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
+              <label className="mb-1 block text-sm font-medium text-gray-700">
                 Status
               </label>
               <select
@@ -556,7 +556,7 @@ const Reports: React.FC = () => {
               </select>
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
+              <label className="mb-1 block text-sm font-medium text-gray-700">
                 Has General Remarks
               </label>
               <select
@@ -571,15 +571,15 @@ const Reports: React.FC = () => {
             </div>
           </div>
           
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mt-4">
+          <div className="mt-4 grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
+              <label className="mb-1 block text-sm font-medium text-gray-700">
                 Designs ({filters.designs.length} selected)
               </label>
               <div className="relative">
-                <div className="max-h-32 overflow-y-auto border border-gray-300 rounded-lg bg-white">
+                <div className="max-h-32 overflow-y-auto rounded-lg border border-gray-300 bg-white">
                   {uniqueDesigns.map(design => (
-                    <label key={design} className="flex items-center px-3 py-2 hover:bg-gray-50 cursor-pointer">
+                    <label key={design} className="flex cursor-pointer items-center px-3 py-2 hover:bg-gray-50">
                       <input
                         type="checkbox"
                         checked={filters.designs.includes(design)}
@@ -596,13 +596,13 @@ const Reports: React.FC = () => {
               </div>
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
+              <label className="mb-1 block text-sm font-medium text-gray-700">
                 Colors ({filters.colors.length} selected)
               </label>
               <div className="relative">
-                <div className="max-h-32 overflow-y-auto border border-gray-300 rounded-lg bg-white">
+                <div className="max-h-32 overflow-y-auto rounded-lg border border-gray-300 bg-white">
                   {uniqueColors.map(color => (
-                    <label key={color} className="flex items-center px-3 py-2 hover:bg-gray-50 cursor-pointer">
+                    <label key={color} className="flex cursor-pointer items-center px-3 py-2 hover:bg-gray-50">
                       <input
                         type="checkbox"
                         checked={filters.colors.includes(color)}
@@ -619,13 +619,13 @@ const Reports: React.FC = () => {
               </div>
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
+              <label className="mb-1 block text-sm font-medium text-gray-700">
                 Sizes ({filters.sizes.length} selected)
               </label>
               <div className="relative">
-                <div className="max-h-32 overflow-y-auto border border-gray-300 rounded-lg bg-white">
+                <div className="max-h-32 overflow-y-auto rounded-lg border border-gray-300 bg-white">
                   {commonSizes.map(size => (
-                    <label key={size} className="flex items-center px-3 py-2 hover:bg-gray-50 cursor-pointer">
+                    <label key={size} className="flex cursor-pointer items-center px-3 py-2 hover:bg-gray-50">
                       <input
                         type="checkbox"
                         checked={filters.sizes.includes(size)}
@@ -639,13 +639,13 @@ const Reports: React.FC = () => {
               </div>
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
+              <label className="mb-1 block text-sm font-medium text-gray-700">
                 Parties ({filters.parties.length} selected)
               </label>
               <div className="relative">
-                <div className="max-h-32 overflow-y-auto border border-gray-300 rounded-lg bg-white">
+                <div className="max-h-32 overflow-y-auto rounded-lg border border-gray-300 bg-white">
                   {uniqueParties.map(party => (
-                    <label key={party} className="flex items-center px-3 py-2 hover:bg-gray-50 cursor-pointer">
+                    <label key={party} className="flex cursor-pointer items-center px-3 py-2 hover:bg-gray-50">
                       <input
                         type="checkbox"
                         checked={filters.parties.includes(party)}
@@ -663,15 +663,15 @@ const Reports: React.FC = () => {
             </div>
           </div>
           
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mt-4">
+          <div className="mt-4 grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
+              <label className="mb-1 block text-sm font-medium text-gray-700">
                 Transport ({filters.transport.length} selected)
               </label>
               <div className="relative">
-                <div className="max-h-32 overflow-y-auto border border-gray-300 rounded-lg bg-white">
+                <div className="max-h-32 overflow-y-auto rounded-lg border border-gray-300 bg-white">
                   {uniqueTransports.map(transport => (
-                    <label key={transport} className="flex items-center px-3 py-2 hover:bg-gray-50 cursor-pointer">
+                    <label key={transport} className="flex cursor-pointer items-center px-3 py-2 hover:bg-gray-50">
                       <input
                         type="checkbox"
                         checked={filters.transport.includes(transport)}
@@ -688,7 +688,7 @@ const Reports: React.FC = () => {
               </div>
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
+              <label className="mb-1 block text-sm font-medium text-gray-700">
                 Has Order Remarks
               </label>
               <select
@@ -703,10 +703,10 @@ const Reports: React.FC = () => {
             </div>
           </div>
           
-          <div className="flex justify-between items-center mt-4">
+          <div className="mt-4 flex items-center justify-between">
             <button
               onClick={clearFilters}
-              className="text-gray-600 hover:text-gray-800 text-sm"
+              className="text-sm text-gray-600 hover:text-gray-800"
             >
               Clear All Filters
             </button>
@@ -719,32 +719,32 @@ const Reports: React.FC = () => {
 
      
       {/* Export Actions */}
-      <div className="bg-white rounded-lg shadow-sm p-6">
+      <div className="rounded-lg bg-white p-6 shadow-sm">
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between">
           <div>
             <h2 className="text-lg font-semibold text-gray-900">Export Options</h2>
-            <p className="text-gray-600 text-sm">Download your filtered report data</p>
+            <p className="text-sm text-gray-600">Download your filtered report data</p>
           </div>
-          <div className="flex space-x-2 mt-4 sm:mt-0">
+          <div className="mt-4 flex space-x-2 sm:mt-0">
             <button
               onClick={exportToExcel}
-              className="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition-colors duration-200 flex items-center"
+              className="flex items-center rounded-lg bg-green-600 px-4 py-2 text-white transition-colors duration-200 hover:bg-green-700"
             >
-              <FileSpreadsheetIcon className="w-4 h-4 mr-2" />
+              <FileSpreadsheetIcon className="mr-2 h-4 w-4" />
               Excel
             </button>
             <button
               onClick={exportToCSV}
-              className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors duration-200 flex items-center"
+              className="flex items-center rounded-lg bg-blue-600 px-4 py-2 text-white transition-colors duration-200 hover:bg-blue-700"
             >
-              <DownloadIcon className="w-4 h-4 mr-2" />
+              <DownloadIcon className="mr-2 h-4 w-4" />
               CSV
             </button>
             <button
               onClick={showPrintPreviewModal}
-              className="bg-gray-600 text-white px-4 py-2 rounded-lg hover:bg-gray-700 transition-colors duration-200 flex items-center"
+              className="flex items-center rounded-lg bg-gray-600 px-4 py-2 text-white transition-colors duration-200 hover:bg-gray-700"
             >
-              <PrinterIcon className="w-4 h-4 mr-2" />
+              <PrinterIcon className="mr-2 h-4 w-4" />
               Print
             </button>
           </div>
@@ -752,46 +752,46 @@ const Reports: React.FC = () => {
       </div>
 
       {/* Orders Table */}
-      <div className="bg-white rounded-lg shadow-sm overflow-hidden">
+      <div className="overflow-hidden rounded-lg bg-white shadow-sm">
         {/* Desktop Table View */}
-        <div className="hidden md:block overflow-x-auto">
+        <div className="hidden overflow-x-auto md:block">
           <table className="w-full">
             <thead className="bg-gray-50">
               <tr>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
                   Order Details
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
                   Party Name
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
                   Design Items
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
                   Dates
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
                   Transport
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
                   Remarks
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
                   Status
                 </th>
               </tr>
             </thead>
-            <tbody className="bg-white divide-y divide-gray-200">
+            <tbody className="divide-y divide-gray-200 bg-white">
               {filteredOrders.map((order) => (
-                <tr key={order.id} className="hover:bg-gray-50 transition-colors duration-200">
+                <tr key={order.id} className="transition-colors duration-200 hover:bg-gray-50">
                   <td className="px-6 py-4">
                     <div className="flex items-center">
-                      <PackageIcon className="w-4 h-4 text-gray-400 mr-2" />
+                      <PackageIcon className="mr-2 h-4 w-4 text-gray-400" />
                       <div>
-                        <div className="text-sm font-medium text-gray-900 font-mono bg-gray-100 px-2 py-1 rounded">
+                        <div className="rounded bg-gray-100 px-2 py-1 font-mono text-sm font-medium text-gray-900">
                           {order.order_number}
                         </div>
-                        <div className="text-xs text-gray-500 mt-1">
+                        <div className="mt-1 text-xs text-gray-500">
                           Created: {formatDate(order.created_at)}
                         </div>
                         {order.updated_at !== order.created_at && (
@@ -808,7 +808,7 @@ const Reports: React.FC = () => {
                   <td className="px-6 py-4">
                     {order.order_items && order.order_items.length > 0 ? (
                       <div className="max-w-xs">
-                        <div className="flex items-center justify-between mb-1">
+                        <div className="mb-1 flex items-center justify-between">
                           <span className="text-xs font-medium text-gray-700">
                             {order.order_items.length} item{order.order_items.length > 1 ? 's' : ''}
                           </span>
@@ -829,21 +829,21 @@ const Reports: React.FC = () => {
                           // Expanded view - show all items
                           <div className="space-y-1">
                             {order.order_items.map((item, index) => (
-                              <div key={index} className="text-xs bg-gray-50 p-2 rounded border">
-                                <div className="flex items-center space-x-2 mb-1">
-                                  <span className="font-medium text-gray-900 bg-white px-2 py-0.5 rounded text-xs border">
+                              <div key={index} className="rounded border bg-gray-50 p-2 text-xs">
+                                <div className="mb-1 flex items-center space-x-2">
+                                  <span className="rounded border bg-white px-2 py-0.5 text-xs font-medium text-gray-900">
                                     {item.design_number}
                                   </span>
-                                  <span className="text-gray-600 text-xs">
+                                  <span className="text-xs text-gray-600">
                                     {item.color}
                                   </span>
-                                  <span className="text-green-600 text-xs font-semibold bg-green-50 px-2 py-0.5 rounded border">
+                                  <span className="rounded border bg-green-50 px-2 py-0.5 text-xs font-semibold text-green-600">
                                     Total: {calculateItemQuantity(item)}
                                   </span>
                                 </div>
                                 <div className="flex flex-wrap gap-1">
                                   {item.sizes_quantities?.map((sq, sqIndex) => (
-                                    <span key={sqIndex} className="inline-block text-xs bg-blue-50 text-blue-700 px-1 py-0.5 rounded border">
+                                    <span key={sqIndex} className="inline-block rounded border bg-blue-50 px-1 py-0.5 text-xs text-blue-700">
                                       {sq.size}:{sq.quantity}
                                     </span>
                                   ))}
@@ -851,7 +851,7 @@ const Reports: React.FC = () => {
                               </div>
                             ))}
                             {/* Order Total */}
-                            <div className="text-xs bg-green-100 p-2 rounded border border-green-300 mt-2">
+                            <div className="mt-2 rounded border border-green-300 bg-green-100 p-2 text-xs">
                               <div className="font-semibold text-green-800">
                                 Order Total: {calculateOrderQuantity(order)} kurtas
                               </div>
@@ -868,14 +868,14 @@ const Reports: React.FC = () => {
                         ) : (
                           // Collapsed view - show summary
                           <div className="text-xs text-gray-600">
-                            <div className="flex flex-wrap gap-1 mb-1">
+                            <div className="mb-1 flex flex-wrap gap-1">
                               {order.order_items.slice(0, 3).map((item, index) => (
-                                <span key={index} className="inline-block bg-gray-100 px-2 py-0.5 rounded text-xs">
+                                <span key={index} className="inline-block rounded bg-gray-100 px-2 py-0.5 text-xs">
                                   {item.design_number}
                                 </span>
                               ))}
                               {order.order_items.length > 3 && (
-                                <span className="text-xs text-gray-500 px-1">
+                                <span className="px-1 text-xs text-gray-500">
                                   +{order.order_items.length - 3} more
                                 </span>
                               )}
@@ -887,19 +887,19 @@ const Reports: React.FC = () => {
                         )}
                       </div>
                     ) : (
-                      <div className="text-xs text-gray-500 italic">
+                      <div className="text-xs italic text-gray-500">
                         No design items
                       </div>
                     )}
                   </td>
                   <td className="px-6 py-4">
                     <div className="text-sm">
-                      <div className="flex items-center text-gray-900 mb-1">
-                        <CalendarIcon className="w-3 h-3 mr-1" />
+                      <div className="mb-1 flex items-center text-gray-900">
+                        <CalendarIcon className="mr-1 h-3 w-3" />
                         {formatDate(order.date_of_order)}
                       </div>
                       {order.expected_delivery_date && (
-                        <div className="text-gray-600 text-xs">
+                        <div className="text-xs text-gray-600">
                           Expected: {formatDate(order.expected_delivery_date)}
                         </div>
                       )}
@@ -914,7 +914,7 @@ const Reports: React.FC = () => {
                     <div className="max-w-xs space-y-1">
                       {order.remarks && (
                         <div className="text-xs">
-                          <span className="inline-block bg-blue-100 text-blue-800 px-2 py-0.5 rounded text-xs font-medium mr-1">
+                          <span className="mr-1 inline-block rounded bg-blue-100 px-2 py-0.5 text-xs font-medium text-blue-800">
                             General
                           </span>
                           <span className="text-gray-700">
@@ -924,7 +924,7 @@ const Reports: React.FC = () => {
                       )}
                       {order.order_remarks && order.order_remarks.length > 0 && (
                         <div className="text-xs">
-                          <span className="inline-block bg-yellow-100 text-yellow-800 px-2 py-0.5 rounded text-xs font-medium mr-1">
+                          <span className="mr-1 inline-block rounded bg-yellow-100 px-2 py-0.5 text-xs font-medium text-yellow-800">
                             Order
                           </span>
                           <div className="inline">
@@ -934,7 +934,7 @@ const Reports: React.FC = () => {
                               </span>
                             ))}
                             {order.order_remarks.length > 1 && (
-                              <span className="text-gray-500 ml-1">
+                              <span className="ml-1 text-gray-500">
                                 (+{order.order_remarks.length - 1} more)
                               </span>
                             )}
@@ -942,7 +942,7 @@ const Reports: React.FC = () => {
                         </div>
                       )}
                       {!order.remarks && (!order.order_remarks || order.order_remarks.length === 0) && (
-                        <div className="text-xs text-gray-500 italic">No remarks</div>
+                        <div className="text-xs italic text-gray-500">No remarks</div>
                       )}
                     </div>
                   </td>
@@ -957,8 +957,8 @@ const Reports: React.FC = () => {
           </table>
 
           {filteredOrders.length === 0 && (
-            <div className="text-center py-12">
-              <BarChart3Icon className="w-12 h-12 text-gray-400 mx-auto mb-4" />
+            <div className="py-12 text-center">
+              <BarChart3Icon className="mx-auto mb-4 h-12 w-12 text-gray-400" />
               <p className="text-gray-500">No orders found matching the selected filters</p>
             </div>
           )}
@@ -967,19 +967,19 @@ const Reports: React.FC = () => {
         {/* Mobile Card View */}
         <div className="md:hidden">
           {filteredOrders.length === 0 ? (
-            <div className="text-center py-12">
-              <BarChart3Icon className="w-12 h-12 text-gray-400 mx-auto mb-4" />
+            <div className="py-12 text-center">
+              <BarChart3Icon className="mx-auto mb-4 h-12 w-12 text-gray-400" />
               <p className="text-gray-500">No orders found matching the selected filters</p>
             </div>
           ) : (
-            <div className="p-4 space-y-4">
+            <div className="space-y-4 p-4">
               {filteredOrders.map((order) => (
-                <div key={order.id} className="bg-gray-50 rounded-lg p-4 border">
+                <div key={order.id} className="rounded-lg border bg-gray-50 p-4">
                   {/* Order Header */}
-                  <div className="flex items-center justify-between mb-3">
+                  <div className="mb-3 flex items-center justify-between">
                     <div className="flex items-center">
-                      <PackageIcon className="w-4 h-4 text-gray-400 mr-2" />
-                      <span className="text-sm font-medium text-gray-900 font-mono bg-white px-2 py-1 rounded">
+                      <PackageIcon className="mr-2 h-4 w-4 text-gray-400" />
+                      <span className="rounded bg-white px-2 py-1 font-mono text-sm font-medium text-gray-900">
                         {order.order_number}
                       </span>
                     </div>
@@ -996,15 +996,15 @@ const Reports: React.FC = () => {
                   {/* Design Items */}
                   {order.order_items && order.order_items.length > 0 && (
                     <div className="mb-3">
-                      <p className="text-xs font-medium text-gray-700 mb-2">Design Items:</p>
+                      <p className="mb-2 text-xs font-medium text-gray-700">Design Items:</p>
                       <div className="space-y-2">
                         {order.order_items.map((item, index) => (
-                          <div key={index} className="text-xs bg-white p-2 rounded border">
-                            <div className="font-medium text-gray-900 mb-1">{item.design_number}</div>
-                            <div className="text-gray-600 mb-1">Color: {item.color}</div>
+                          <div key={index} className="rounded border bg-white p-2 text-xs">
+                            <div className="mb-1 font-medium text-gray-900">{item.design_number}</div>
+                            <div className="mb-1 text-gray-600">Color: {item.color}</div>
                             <div className="text-gray-600">
                               {item.sizes_quantities?.map((sq, sqIndex) => (
-                                <span key={sqIndex} className="inline-block mr-2 text-xs bg-gray-100 px-1 py-0.5 rounded">
+                                <span key={sqIndex} className="mr-2 inline-block rounded bg-gray-100 px-1 py-0.5 text-xs">
                                   {sq.size}: {sq.quantity}
                                 </span>
                               ))}
@@ -1017,13 +1017,13 @@ const Reports: React.FC = () => {
 
                   {/* Dates */}
                   <div className="mb-3">
-                    <div className="flex items-center text-sm text-gray-900 mb-1">
-                      <CalendarIcon className="w-3 h-3 mr-1" />
-                      <span className="text-xs text-gray-600 mr-2">Order:</span>
+                    <div className="mb-1 flex items-center text-sm text-gray-900">
+                      <CalendarIcon className="mr-1 h-3 w-3" />
+                      <span className="mr-2 text-xs text-gray-600">Order:</span>
                       {formatDate(order.date_of_order)}
                     </div>
                     {order.expected_delivery_date && (
-                      <div className="text-xs text-gray-600 ml-4">
+                      <div className="ml-4 text-xs text-gray-600">
                         Expected: {formatDate(order.expected_delivery_date)}
                       </div>
                     )}
@@ -1041,18 +1041,18 @@ const Reports: React.FC = () => {
                   {/* Remarks */}
                   {(order.remarks || (order.order_remarks && order.order_remarks.length > 0)) && (
                     <div className="mb-3">
-                      <p className="text-xs font-medium text-gray-700 mb-2">Remarks:</p>
+                      <p className="mb-2 text-xs font-medium text-gray-700">Remarks:</p>
                       {order.remarks && (
-                        <div className="text-xs bg-blue-50 p-2 rounded border mb-2">
-                          <div className="font-medium text-blue-800 mb-1">General:</div>
+                        <div className="mb-2 rounded border bg-blue-50 p-2 text-xs">
+                          <div className="mb-1 font-medium text-blue-800">General:</div>
                           <div className="text-blue-700">{order.remarks}</div>
                         </div>
                       )}
                       {order.order_remarks && order.order_remarks.length > 0 && (
-                        <div className="text-xs bg-yellow-50 p-2 rounded border">
-                          <div className="font-medium text-yellow-800 mb-1">Order Remarks:</div>
+                        <div className="rounded border bg-yellow-50 p-2 text-xs">
+                          <div className="mb-1 font-medium text-yellow-800">Order Remarks:</div>
                           {order.order_remarks.map((remark, index) => (
-                            <div key={remark.id} className="text-yellow-700 mb-1">
+                            <div key={remark.id} className="mb-1 text-yellow-700">
                               • {remark.remark}
                             </div>
                           ))}
@@ -1062,7 +1062,7 @@ const Reports: React.FC = () => {
                   )}
 
                   {/* Timestamps */}
-                  <div className="text-xs text-gray-500 pt-2 border-t">
+                  <div className="border-t pt-2 text-xs text-gray-500">
                     <div>Created: {formatDate(order.created_at)}</div>
                     {order.updated_at !== order.created_at && (
                       <div>Updated: {formatDate(order.updated_at)}</div>
@@ -1077,22 +1077,22 @@ const Reports: React.FC = () => {
 
       {/* Print Preview Modal */}
       {showPrintPreview && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
-          <div className="bg-white rounded-lg max-w-6xl w-full h-[90vh] flex flex-col">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 p-4">
+          <div className="flex h-[90vh] w-full max-w-6xl flex-col rounded-lg bg-white">
             {/* Modal Header */}
-            <div className="flex items-center justify-between p-6 border-b">
+            <div className="flex items-center justify-between border-b p-6">
               <h2 className="text-xl font-bold text-gray-900">Print Preview - Orders Report</h2>
               <div className="flex space-x-3">
                 <button
                   onClick={printReport}
-                  className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors duration-200 flex items-center"
+                  className="flex items-center rounded-lg bg-blue-600 px-4 py-2 text-white transition-colors duration-200 hover:bg-blue-700"
                 >
-                  <PrinterIcon className="w-4 h-4 mr-2" />
+                  <PrinterIcon className="mr-2 h-4 w-4" />
                   Print
                 </button>
                 <button
                   onClick={closePrintPreview}
-                  className="text-gray-600 hover:text-gray-800 p-2"
+                  className="p-2 text-gray-600 hover:text-gray-800"
                 >
                   ✕
                 </button>
@@ -1100,12 +1100,12 @@ const Reports: React.FC = () => {
             </div>
 
             {/* Print Preview Content */}
-            <div className="flex-1 overflow-auto p-6 bg-gray-100">
-              <div className="bg-white shadow-lg mx-auto" style={{ width: '210mm', minHeight: '297mm', padding: '20mm' }}>
+            <div className="flex-1 overflow-auto bg-gray-100 p-6">
+              <div className="mx-auto bg-white shadow-lg" style={{ width: '210mm', minHeight: '297mm', padding: '20mm' }}>
                 {/* Report Header */}
-                <div className="text-center mb-8">
-                  <h1 className="text-3xl font-bold text-gray-900 mb-4">Orders Report</h1>
-                  <div className="text-sm text-gray-600 space-y-1">
+                <div className="mb-8 text-center">
+                  <h1 className="mb-4 text-3xl font-bold text-gray-900">Orders Report</h1>
+                  <div className="space-y-1 text-sm text-gray-600">
                     <p><strong>Generated on:</strong> {new Date().toLocaleDateString('en-IN')}</p>
                     <p><strong>Total Orders:</strong> {filteredOrders.length}</p>
                     <p><strong>Total Items:</strong> {generateReportData().length}</p>
@@ -1116,20 +1116,20 @@ const Reports: React.FC = () => {
                 </div>
 
                 {/* Summary Statistics */}
-                <div className="mb-8 grid grid-cols-2 md:grid-cols-4 gap-4">
-                  <div className="text-center p-4 bg-blue-50 rounded-lg">
+                <div className="mb-8 grid grid-cols-2 gap-4 md:grid-cols-4">
+                  <div className="rounded-lg bg-blue-50 p-4 text-center">
                     <div className="text-2xl font-bold text-blue-600">{summaryStats.totalOrders}</div>
                     <div className="text-sm text-blue-800">Total Orders</div>
                   </div>
-                  <div className="text-center p-4 bg-green-50 rounded-lg">
+                  <div className="rounded-lg bg-green-50 p-4 text-center">
                     <div className="text-2xl font-bold text-green-600">{summaryStats.totalQuantity}</div>
                     <div className="text-sm text-green-800">Total Kurtas</div>
                   </div>
-                  <div className="text-center p-4 bg-yellow-50 rounded-lg">
+                  <div className="rounded-lg bg-yellow-50 p-4 text-center">
                     <div className="text-2xl font-bold text-yellow-600">{summaryStats.statusCounts.pending || 0}</div>
                     <div className="text-sm text-yellow-800">Pending</div>
                   </div>
-                  <div className="text-center p-4 bg-purple-50 rounded-lg">
+                  <div className="rounded-lg bg-purple-50 p-4 text-center">
                     <div className="text-2xl font-bold text-purple-600">{summaryStats.statusCounts.completed || 0}</div>
                     <div className="text-sm text-purple-800">Completed</div>
                   </div>
@@ -1138,18 +1138,18 @@ const Reports: React.FC = () => {
                 {/* Design-wise Summary */}
                 {Object.keys(summaryStats.designTotals).length > 0 && (
                   <div className="mb-8">
-                    <h3 className="text-lg font-semibold text-gray-900 mb-4">Design-wise Kurta Totals</h3>
-                    <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-3">
+                    <h3 className="mb-4 text-lg font-semibold text-gray-900">Design-wise Kurta Totals</h3>
+                    <div className="grid grid-cols-2 gap-3 md:grid-cols-4 lg:grid-cols-6">
                       {Object.entries(summaryStats.designTotals)
                         .sort(([,a], [,b]) => b - a)
                         .map(([design, quantity]) => (
-                        <div key={design} className="text-center p-3 bg-indigo-50 rounded-lg border">
+                        <div key={design} className="rounded-lg border bg-indigo-50 p-3 text-center">
                           <div className="text-lg font-bold text-indigo-600">{quantity}</div>
-                          <div className="text-xs text-indigo-800 font-medium">{design}</div>
+                          <div className="text-xs font-medium text-indigo-800">{design}</div>
                         </div>
                       ))}
                       {/* Order Total for Mobile */}
-                      <div className="text-xs bg-green-100 p-2 rounded border border-green-300 mt-2">
+                      <div className="mt-2 rounded border border-green-300 bg-green-100 p-2 text-xs">
                         <div className="font-semibold text-green-800">
                           Order Total: {calculateOrderQuantity(order)} kurtas
                         </div>
@@ -1203,7 +1203,7 @@ const Reports: React.FC = () => {
                                 ))}
                               </div>
                             ) : (
-                              <span className="text-gray-500 italic">No items</span>
+                              <span className="italic text-gray-500">No items</span>
                             )}
                           </td>
                           <td className="border border-gray-300 px-2 py-2">
@@ -1217,12 +1217,12 @@ const Reports: React.FC = () => {
                                   </div>
                                 ))}
                                 {/* Order total */}
-                                <div className="text-xs font-semibold text-green-600 border-t pt-1 mt-1">
+                                <div className="mt-1 border-t pt-1 text-xs font-semibold text-green-600">
                                   Total: {calculateOrderQuantity(order)} kurtas
                                 </div>
                               </div>
                             ) : (
-                              <span className="text-gray-500 italic">0</span>
+                              <span className="italic text-gray-500">0</span>
                             )}
                           </td>
                           <td className="border border-gray-300 px-2 py-2">
@@ -1247,7 +1247,7 @@ const Reports: React.FC = () => {
                                 </div>
                               )}
                               {!order.remarks && (!order.order_remarks || order.order_remarks.length === 0) && (
-                                <span className="text-gray-500 italic">No remarks</span>
+                                <span className="italic text-gray-500">No remarks</span>
                               )}
                             </div>
                           </td>

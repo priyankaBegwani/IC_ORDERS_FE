@@ -1,4 +1,4 @@
-import React from 'react';
+﻿import React from 'react';
 import { useState, useEffect, useMemo } from 'react';
 import { useAuth } from '../contexts/AuthContext';
 import { useData } from '../contexts/DataContext';
@@ -38,7 +38,7 @@ const Dashboard: React.FC = () => {
       if (!token) return;
       
       try {
-        const response = await fetch('http://localhost:3001/api/orders', {
+          const response = await fetch(`${process.env.API_URL}/api/orders`, {
           headers: {
             'Authorization': `Bearer ${token}`,
           },
@@ -153,43 +153,43 @@ const Dashboard: React.FC = () => {
   return (
     <div className="space-y-6">
       {/* Welcome Section */}
-      <div className="bg-white rounded-lg shadow-sm p-6">
-        <h1 className="text-3xl font-bold text-gray-900 mb-2">Dashboard Overview</h1>
+      <div className="rounded-lg bg-white p-6 shadow-sm">
+        <h1 className="mb-2 text-3xl font-bold text-gray-900">Dashboard Overview</h1>
         <p className="text-gray-600">Monitor your business performance and manage operations</p>
       </div>
 
       {/* Stats Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4">
         {stats.map((stat, index) => (
-          <div key={index} className="bg-white rounded-lg shadow-sm p-6 hover:shadow-md transition-shadow duration-200">
-            <div className="flex items-center justify-between mb-4">
+          <div key={index} className="rounded-lg bg-white p-6 shadow-sm transition-shadow duration-200 hover:shadow-md">
+            <div className="mb-4 flex items-center justify-between">
               <div className={`p-3 rounded-lg ${stat.color}`}>
-                <stat.icon className="w-6 h-6 text-white" />
+                <stat.icon className="h-6 w-6 text-white" />
               </div>
               {stat.change && (
                 <span className="text-sm font-medium text-green-600">{stat.change}</span>
               )}
             </div>
-            <h3 className="text-2xl font-bold text-gray-900 mb-1">{stat.value}</h3>
-            <p className="text-gray-600 text-sm">{stat.title}</p>
+            <h3 className="mb-1 text-2xl font-bold text-gray-900">{stat.value}</h3>
+            <p className="text-sm text-gray-600">{stat.title}</p>
           </div>
         ))}
       </div>
 
       {/* Widgets Grid */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
         {/* Top Selling Designs */}
-        <div className="bg-white rounded-lg shadow-sm p-6">
-          <div className="flex items-center justify-between mb-4">
+        <div className="rounded-lg bg-white p-6 shadow-sm">
+          <div className="mb-4 flex items-center justify-between">
             <h3 className="text-lg font-semibold text-gray-900">Top Selling Designs</h3>
-            <TrendingUpIcon className="w-5 h-5 text-green-600" />
+            <TrendingUpIcon className="h-5 w-5 text-green-600" />
           </div>
           <div className="space-y-3">
             {topSellingDesigns.length > 0 ? (
               topSellingDesigns.map((design, index) => (
-                <div key={design.design_number} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                <div key={design.design_number} className="flex items-center justify-between rounded-lg bg-gray-50 p-3">
                   <div className="flex items-center">
-                    <div className="flex items-center justify-center w-8 h-8 bg-blue-100 text-blue-600 rounded-full text-sm font-medium mr-3">
+                    <div className="mr-3 flex h-8 w-8 items-center justify-center rounded-full bg-blue-100 text-sm font-medium text-blue-600">
                       {index + 1}
                     </div>
                     <div>
@@ -204,71 +204,71 @@ const Dashboard: React.FC = () => {
                 </div>
               ))
             ) : (
-              <div className="text-center py-8">
-                <PackageIcon className="w-8 h-8 text-gray-400 mx-auto mb-2" />
-                <p className="text-gray-500 text-sm">No design data available</p>
+              <div className="py-8 text-center">
+                <PackageIcon className="mx-auto mb-2 h-8 w-8 text-gray-400" />
+                <p className="text-sm text-gray-500">No design data available</p>
               </div>
             )}
           </div>
         </div>
 
         {/* Pending Orders */}
-        <div className="bg-white rounded-lg shadow-sm p-6">
-          <div className="flex items-center justify-between mb-4">
+        <div className="rounded-lg bg-white p-6 shadow-sm">
+          <div className="mb-4 flex items-center justify-between">
             <h3 className="text-lg font-semibold text-gray-900">Pending Orders</h3>
-            <ClockIcon className="w-5 h-5 text-yellow-600" />
+            <ClockIcon className="h-5 w-5 text-yellow-600" />
           </div>
           <div className="space-y-3">
             {recentPendingOrders.length > 0 ? (
               recentPendingOrders.map((order) => (
-                <div key={order.id} className="flex items-center justify-between p-3 bg-yellow-50 rounded-lg border-l-4 border-yellow-400">
+                <div key={order.id} className="flex items-center justify-between rounded-lg border-l-4 border-yellow-400 bg-yellow-50 p-3">
                   <div>
                     <p className="text-sm font-medium text-gray-900">{order.order_number}</p>
                     <p className="text-xs text-gray-600">{order.party_name}</p>
                   </div>
                   <div className="text-right">
                     <p className="text-xs text-gray-500">{formatDate(order.created_at)}</p>
-                    <span className="inline-flex items-center px-2 py-1 text-xs font-medium bg-yellow-100 text-yellow-800 rounded-full">
+                    <span className="inline-flex items-center rounded-full bg-yellow-100 px-2 py-1 text-xs font-medium text-yellow-800">
                       Pending
                     </span>
                   </div>
                 </div>
               ))
             ) : (
-              <div className="text-center py-8">
-                <ClockIcon className="w-8 h-8 text-gray-400 mx-auto mb-2" />
-                <p className="text-gray-500 text-sm">No pending orders</p>
+              <div className="py-8 text-center">
+                <ClockIcon className="mx-auto mb-2 h-8 w-8 text-gray-400" />
+                <p className="text-sm text-gray-500">No pending orders</p>
               </div>
             )}
           </div>
         </div>
 
         {/* Completed Orders */}
-        <div className="bg-white rounded-lg shadow-sm p-6">
-          <div className="flex items-center justify-between mb-4">
+        <div className="rounded-lg bg-white p-6 shadow-sm">
+          <div className="mb-4 flex items-center justify-between">
             <h3 className="text-lg font-semibold text-gray-900">Recent Completed</h3>
-            <CheckCircleIcon className="w-5 h-5 text-green-600" />
+            <CheckCircleIcon className="h-5 w-5 text-green-600" />
           </div>
           <div className="space-y-3">
             {recentCompletedOrders.length > 0 ? (
               recentCompletedOrders.map((order) => (
-                <div key={order.id} className="flex items-center justify-between p-3 bg-green-50 rounded-lg border-l-4 border-green-400">
+                <div key={order.id} className="flex items-center justify-between rounded-lg border-l-4 border-green-400 bg-green-50 p-3">
                   <div>
                     <p className="text-sm font-medium text-gray-900">{order.order_number}</p>
                     <p className="text-xs text-gray-600">{order.party_name}</p>
                   </div>
                   <div className="text-right">
                     <p className="text-xs text-gray-500">{formatDate(order.created_at)}</p>
-                    <span className="inline-flex items-center px-2 py-1 text-xs font-medium bg-green-100 text-green-800 rounded-full">
+                    <span className="inline-flex items-center rounded-full bg-green-100 px-2 py-1 text-xs font-medium text-green-800">
                       Completed
                     </span>
                   </div>
                 </div>
               ))
             ) : (
-              <div className="text-center py-8">
-                <CheckCircleIcon className="w-8 h-8 text-gray-400 mx-auto mb-2" />
-                <p className="text-gray-500 text-sm">No completed orders</p>
+              <div className="py-8 text-center">
+                <CheckCircleIcon className="mx-auto mb-2 h-8 w-8 text-gray-400" />
+                <p className="text-sm text-gray-500">No completed orders</p>
               </div>
             )}
           </div>
@@ -276,29 +276,29 @@ const Dashboard: React.FC = () => {
       </div>
 
       {/* Quick Actions */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        <button className="bg-white rounded-lg shadow-sm p-6 text-left hover:shadow-md transition-all duration-200 hover:scale-105">
-          <UsersIcon className="w-8 h-8 text-blue-600 mb-4" />
-          <h3 className="text-lg font-semibold text-gray-900 mb-2">Party Entry</h3>
-          <p className="text-gray-600 text-sm">Add new party information</p>
+      <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4">
+        <button className="rounded-lg bg-white p-6 text-left shadow-sm transition-all duration-200 hover:scale-105 hover:shadow-md">
+          <UsersIcon className="mb-4 h-8 w-8 text-blue-600" />
+          <h3 className="mb-2 text-lg font-semibold text-gray-900">Party Entry</h3>
+          <p className="text-sm text-gray-600">Add new party information</p>
         </button>
 
-        <button className="bg-white rounded-lg shadow-sm p-6 text-left hover:shadow-md transition-all duration-200 hover:scale-105">
-          <PaletteIcon className="w-8 h-8 text-purple-600 mb-4" />
-          <h3 className="text-lg font-semibold text-gray-900 mb-2">Design Entry</h3>
-          <p className="text-gray-600 text-sm">Create and manage designs</p>
+        <button className="rounded-lg bg-white p-6 text-left shadow-sm transition-all duration-200 hover:scale-105 hover:shadow-md">
+          <PaletteIcon className="mb-4 h-8 w-8 text-purple-600" />
+          <h3 className="mb-2 text-lg font-semibold text-gray-900">Design Entry</h3>
+          <p className="text-sm text-gray-600">Create and manage designs</p>
         </button>
 
-        <button className="bg-white rounded-lg shadow-sm p-6 text-left hover:shadow-md transition-all duration-200 hover:scale-105">
-          <ShoppingCartIcon className="w-8 h-8 text-green-600 mb-4" />
-          <h3 className="text-lg font-semibold text-gray-900 mb-2">New Order</h3>
-          <p className="text-gray-600 text-sm">Create a new order</p>
+        <button className="rounded-lg bg-white p-6 text-left shadow-sm transition-all duration-200 hover:scale-105 hover:shadow-md">
+          <ShoppingCartIcon className="mb-4 h-8 w-8 text-green-600" />
+          <h3 className="mb-2 text-lg font-semibold text-gray-900">New Order</h3>
+          <p className="text-sm text-gray-600">Create a new order</p>
         </button>
 
-        <button className="bg-white rounded-lg shadow-sm p-6 text-left hover:shadow-md transition-all duration-200 hover:scale-105">
-          <BarChart3Icon className="w-8 h-8 text-orange-600 mb-4" />
-          <h3 className="text-lg font-semibold text-gray-900 mb-2">View Reports</h3>
-          <p className="text-gray-600 text-sm">Analyze performance data</p>
+        <button className="rounded-lg bg-white p-6 text-left shadow-sm transition-all duration-200 hover:scale-105 hover:shadow-md">
+          <BarChart3Icon className="mb-4 h-8 w-8 text-orange-600" />
+          <h3 className="mb-2 text-lg font-semibold text-gray-900">View Reports</h3>
+          <p className="text-sm text-gray-600">Analyze performance data</p>
         </button>
       </div>
     </div>
