@@ -37,7 +37,7 @@ const TransportEntry: React.FC = () => {
 
   const fetchTransports = async () => {
     try {
-        const response = await fetch(`${process.env.API_URL}/api/transport`, {
+        const response = await fetch(`${process.env.REACT_APP_API_URL}/api/transport`, {
         headers: {
           'Authorization': `Bearer ${token}`,
         },
@@ -62,8 +62,8 @@ const TransportEntry: React.FC = () => {
 
     try {
       const url = editingTransport 
-          ? `${process.env.API_URL}/api/transport/${editingTransport.id}`
-          : `${process.env.API_URL}/api/transport`;
+          ? `${process.env.REACT_APP_API_URL}/api/transport/${editingTransport.id}`
+          : `${process.env.REACT_APP_API_URL}/api/transport`;
       
       const method = editingTransport ? 'PUT' : 'POST';
 
@@ -104,7 +104,7 @@ const TransportEntry: React.FC = () => {
     if (!confirm(`Are you sure you want to delete transport option "${transportName}"?`)) return;
 
     try {
-        const response = await fetch(`${process.env.API_URL}/api/transport/${id}`, {
+        const response = await fetch(`${process.env.REACT_APP_API_URL}/api/transport/${id}`, {
         method: 'DELETE',
         headers: {
           'Authorization': `Bearer ${token}`,

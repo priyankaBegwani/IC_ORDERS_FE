@@ -118,7 +118,7 @@ const Reports: React.FC = () => {
 
   const fetchOrders = async () => {
     try {
-        const response = await fetch(`${process.env.API_URL}/api/orders`, {
+        const response = await fetch(`${process.env.REACT_APP_API_URL}/api/orders`, {
         headers: {
           'Authorization': `Bearer ${token}`,
         },

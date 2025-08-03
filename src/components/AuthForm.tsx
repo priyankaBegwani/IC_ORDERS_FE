@@ -42,7 +42,7 @@ const AuthForm: React.FC = () => {
         ? { phone: formData.phone, password: formData.password }
         : formData;
 
-        const response = await fetch(`${process.env.API_URL}/api/auth/${endpoint}`, {
+        const response = await fetch(`${process.env.REACT_APP_API_URL}/api/auth/${endpoint}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

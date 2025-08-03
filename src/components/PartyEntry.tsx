@@ -77,7 +77,7 @@ const PartyEntry: React.FC = () => {
 
   const fetchParties = async () => {
     try {
-        const response = await fetch(`${process.env.API_URL}/api/parties`, {
+        const response = await fetch(`${process.env.REACT_APP_API_URL}/api/parties`, {
         headers: {
           'Authorization': `Bearer ${token}`,
         },
@@ -102,8 +102,8 @@ const PartyEntry: React.FC = () => {
 
     try {
       const url = editingParty 
-          ? `${process.env.API_URL}/api/parties/${editingParty.id}`
-          : `${process.env.API_URL}/api/parties`;
+          ? `${process.env.REACT_APP_API_URL}/api/parties/${editingParty.id}`
+          : `${process.env.REACT_APP_API_URL}/api/parties`;
       
       const method = editingParty ? 'PUT' : 'POST';
 
@@ -149,7 +149,7 @@ const PartyEntry: React.FC = () => {
     if (!confirm(`Are you sure you want to delete party "${partyName}"?`)) return;
 
     try {
-        const response = await fetch(`${process.env.API_URL}/api/parties/${id}`, {
+        const response = await fetch(`${process.env.REACT_APP_API_URL}/api/parties/${id}`, {
         method: 'DELETE',
         headers: {
           'Authorization': `Bearer ${token}`,
@@ -259,7 +259,7 @@ const PartyEntry: React.FC = () => {
 
       for (const row of validRows) {
         try {
-            const response = await fetch(`${process.env.API_URL}/api/parties`, {
+            const response = await fetch(`${process.env.REACT_APP_API_URL}/api/parties`, {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',

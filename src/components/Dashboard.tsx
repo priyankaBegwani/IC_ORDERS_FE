@@ -38,7 +38,7 @@ const Dashboard: React.FC = () => {
       if (!token) return;
       
       try {
-          const response = await fetch(`${process.env.API_URL}/api/orders`, {
+          const response = await fetch(`${process.env.REACT_APP_API_URL}/api/orders`, {
           headers: {
             'Authorization': `Bearer ${token}`,
           },

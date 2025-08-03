@@ -57,7 +57,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     if (!token) return;
 
     try {
-        const response = await fetch(`${process.env.API_URL}/api/auth/profile`, {
+        const response = await fetch(`${process.env.REACT_APP_API_URL}/api/auth/profile`, {
         headers: {
           'Authorization': `Bearer ${token}`,
         },
