@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
-
+const apiUrl = import.meta.env.VITE_API_URL;
 interface User {
   id: string;
   name: string;
@@ -57,7 +57,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     if (!token) return;
 
     try {
-        const response = await fetch(`${process.env.REACT_APP_API_URL}/api/auth/profile`, {
+        const response = await fetch(`${apiUrl}/api/auth/profile`, {
         headers: {
           'Authorization': `Bearer ${token}`,
         },

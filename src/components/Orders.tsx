@@ -14,7 +14,7 @@ import {
   ChevronDownIcon,
   CheckCircleIcon
 } from './icons/Icons';
-
+const apiUrl = import.meta.env.VITE_API_URL;
 interface OrderItem {
   id: string;
   design_number: string;
@@ -71,7 +71,7 @@ const Orders: React.FC = () => {
 
   const fetchOrders = async () => {
     try {
-        const response = await fetch(`${process.env.REACT_APP_API_URL}/api/orders`, {
+        const response = await fetch(`${apiUrl}/api/orders`, {
         headers: {
           'Authorization': `Bearer ${token}`,
         },
@@ -134,8 +134,8 @@ const Orders: React.FC = () => {
 
     try {
       const url = editingOrder 
-          ? `${process.env.REACT_APP_API_URL}/api/orders/${editingOrder.id}`
-          : `${process.env.REACT_APP_API_URL}/api/orders`;
+          ? `${apiUrl}/api/orders/${editingOrder.id}`
+          : `${apiUrl}/api/orders`;
       
       const method = editingOrder ? 'PUT' : 'POST';
 
@@ -193,7 +193,7 @@ const Orders: React.FC = () => {
     if (!confirm(`Are you sure you want to delete order "${orderNumber}"?`)) return;
 
     try {
-        const response = await fetch(`${process.env.REACT_APP_API_URL}/api/orders/${id}`, {
+        const response = await fetch(`${apiUrl}/api/orders/${id}`, {
         method: 'DELETE',
         headers: {
           'Authorization': `Bearer ${token}`,
@@ -216,7 +216,7 @@ const Orders: React.FC = () => {
     if (!confirm(`Mark order "${order.order_number}" as completed?`)) return;
 
     try {
-        const response = await fetch(`${process.env.REACT_APP_API_URL}/api/orders/${order.id}`, {
+        const response = await fetch(`${apiUrl}/api/orders/${order.id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',

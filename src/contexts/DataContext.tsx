@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 import { useAuth } from './AuthContext';
-
+const apiUrl = import.meta.env.VITE_API_URL;
 interface ItemType {
   id: number;
   itemtype: string;
@@ -114,7 +114,7 @@ export const DataProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     setItemTypesError('');
     
     try {
-        const response = await fetch(`${process.env.REACT_APP_API_URL}/api/designs/item-types`, {
+        const response = await fetch(`${apiUrl}/api/designs/item-types`, {
         headers: { 'Authorization': `Bearer ${token}` },
       });
 
@@ -142,7 +142,7 @@ export const DataProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     setColorsError('');
     
     try {
-        const response = await fetch(`${process.env.REACT_APP_API_URL}/api/designs/colors`, {
+        const response = await fetch(`${apiUrl}/api/designs/colors`, {
         headers: { 'Authorization': `Bearer ${token}` },
       });
 
@@ -170,7 +170,7 @@ export const DataProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     setPartiesError('');
     
     try {
-        const response = await fetch(`${process.env.REACT_APP_API_URL}/api/orders/parties`, {
+        const response = await fetch(`${apiUrl}/api/orders/parties`, {
         headers: { 'Authorization': `Bearer ${token}` },
       });
 
@@ -198,7 +198,7 @@ export const DataProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     setDesignsError('');
     
     try {
-        const response = await fetch(`${process.env.REACT_APP_API_URL}/api/orders/designs`, {
+        const response = await fetch(`${apiUrl}/api/orders/designs`, {
         headers: { 'Authorization': `Bearer ${token}` },
       });
 
@@ -226,7 +226,7 @@ export const DataProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     setTransportError('');
     
     try {
-        const response = await fetch(`${process.env.REACT_APP_API_URL}/api/orders/transport`, {
+        const response = await fetch(`${apiUrl}/api/orders/transport`, {
         headers: { 'Authorization': `Bearer ${token}` },
       });
 

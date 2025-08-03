@@ -13,7 +13,7 @@ import {
   CheckCircleIcon,
   ClockIcon
 } from './icons/Icons';
-
+const apiUrl = import.meta.env.VITE_API_URL;
 interface Order {
   id: string;
   order_number: string;
@@ -38,7 +38,7 @@ const Dashboard: React.FC = () => {
       if (!token) return;
       
       try {
-          const response = await fetch(`${process.env.REACT_APP_API_URL}/api/orders`, {
+          const response = await fetch(`${apiUrl}/api/orders`, {
           headers: {
             'Authorization': `Bearer ${token}`,
           },

@@ -8,6 +8,7 @@ import {
   EyeIcon, 
   EyeOffIcon 
 } from './icons/Icons';
+const apiUrl = import.meta.env.VITE_API_URL;
 
 const AuthForm: React.FC = () => {
   const [activeTab, setActiveTab] = useState<'login' | 'register'>('login');
@@ -42,7 +43,7 @@ const AuthForm: React.FC = () => {
         ? { phone: formData.phone, password: formData.password }
         : formData;
 
-        const response = await fetch(`https://ic-orders-be.onrender.com/api/auth/${endpoint}`, {
+        const response = await fetch(`${apiUrl}/api/auth/${endpoint}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

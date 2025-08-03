@@ -16,7 +16,7 @@ import {
   ChevronDownIcon
 } from './icons/Icons';
 
-
+const apiUrl = import.meta.env.VITE_API_URL;
 interface OrderItem {
   id: string;
   design_number: string;
@@ -118,7 +118,7 @@ const Reports: React.FC = () => {
 
   const fetchOrders = async () => {
     try {
-        const response = await fetch(`${process.env.REACT_APP_API_URL}/api/orders`, {
+        const response = await fetch(`${apiUrl}/api/orders`, {
         headers: {
           'Authorization': `Bearer ${token}`,
         },

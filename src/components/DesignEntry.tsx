@@ -10,7 +10,7 @@ import {
   PaletteIcon, 
   PackageIcon 
 } from './icons/Icons';
-
+const apiUrl = import.meta.env.VITE_API_URL;
 interface Design {
   id: string;
   design_number: string;
@@ -61,7 +61,7 @@ const DesignEntry: React.FC = () => {
   }, [itemTypesError, colorsError]);
 
   const fetchDesigns = async () => {
-      const response = await fetch(`${process.env.REACT_APP_API_URL}/api/designs`, {
+      const response = await fetch(`${apiUrl}/api/designs`, {
       headers: {
         'Authorization': `Bearer ${token}`,
       },
@@ -82,7 +82,7 @@ const DesignEntry: React.FC = () => {
     try {
       if (editingDesign) {
         // For editing, we only update one design entry
-          const response = await fetch(`${process.env.REACT_APP_API_URL}/api/designs/${editingDesign.id}`, {
+          const response = await fetch(`${apiUrl}/api/designs/${editingDesign.id}`, {
           method: 'PUT',
           headers: {
             'Content-Type': 'application/json',
@@ -101,7 +101,7 @@ const DesignEntry: React.FC = () => {
         }
       } else {
         // For creating, we send multiple color IDs
-          const response = await fetch(`${process.env.REACT_APP_API_URL}/api/designs`, {
+          const response = await fetch(`${apiUrl}/api/designs`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -149,7 +149,7 @@ const DesignEntry: React.FC = () => {
     if (!confirm('Are you sure you want to delete this design?')) return;
 
     try {
-        const response = await fetch(`${process.env.REACT_APP_API_URL}/api/designs/${id}`, {
+        const response = await fetch(`${apiUrl}/api/designs/${id}`, {
         method: 'DELETE',
         headers: {
           'Authorization': `Bearer ${token}`,
@@ -173,7 +173,7 @@ const DesignEntry: React.FC = () => {
       // Delete all designs in the group
       await Promise.all(
         designGroup.map(design =>
-            fetch(`${process.env.REACT_APP_API_URL}/api/designs/${design.id}`, {
+            fetch(`${apiUrl}/api/designs/${design.id}`, {
             method: 'DELETE',
             headers: {
               'Authorization': `Bearer ${token}`,
